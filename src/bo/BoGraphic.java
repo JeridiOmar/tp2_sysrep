@@ -27,11 +27,12 @@ public class BoGraphic extends JFrame{
         panels = new JPanel[8];
         labels = new JLabel[8];
         String[] columns = new String[]{
-                "date","region","product","qty","cost","amt","tax","total"
+                "Date","Region","Product","Qty","Cost","Amt","Tax","Total"
         };
         for(int i=0;i<8;i++){
             panels[i] = new JPanel();
             labels[i] = new JLabel(columns[i]);
+            labels[i].setPreferredSize(new Dimension(50, 20));;
             inputs[i] = new TextField(20);
             panels[i].add(labels[i]);
             panels[i].add(inputs[i]);
@@ -49,7 +50,7 @@ public class BoGraphic extends JFrame{
 //                {9,"nom2","prenom","date naissance","faza","debb","aasa","ouuf"},
 //        };
         model = new DefaultTableModel(data, columns);
-        frame = new JFrame("Bo"+id);
+        frame = new JFrame("Branch Office "+id);
         frame.setLayout(new FlowLayout());
         tablePan = new JPanel();
         table = new JXTable(model);
