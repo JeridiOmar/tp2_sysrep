@@ -22,7 +22,7 @@ public class BoGraphic extends JFrame{
     TextField[] inputs;
     JPanel[] panels;
     JLabel[] labels;
-    BoGraphic(Object[][] data, Connection con){
+    BoGraphic(Object[][] data, Connection con, String id){
         inputs = new TextField[8];
         panels = new JPanel[8];
         labels = new JLabel[8];
@@ -49,7 +49,7 @@ public class BoGraphic extends JFrame{
 //                {9,"nom2","prenom","date naissance","faza","debb","aasa","ouuf"},
 //        };
         model = new DefaultTableModel(data, columns);
-        frame = new JFrame();
+        frame = new JFrame("Bo"+id);
         frame.setLayout(new FlowLayout());
         tablePan = new JPanel();
         table = new JXTable(model);
@@ -98,7 +98,7 @@ public class BoGraphic extends JFrame{
         List<Object[]> dbElements = new Vector<Object[]>();
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/bo1?characterEncoding=utf8&useSSL=false&useUnicode=true", "root", "");
+                "jdbc:mysql://localhost:3306/bo"+args[0]+"?characterEncoding=utf8&useSSL=false&useUnicode=true", "root", "");
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from sales");
         while (rs.next()) {
@@ -111,6 +111,6 @@ public class BoGraphic extends JFrame{
         for(int i=0; i<dbElements.size(); i++){
             obj[i] = dbElements.get(i);
         }
-        new BoGraphic(obj, con);
+        new BoGraphic(obj, con, args[0]);
     }
 }
