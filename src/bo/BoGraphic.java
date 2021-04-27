@@ -86,7 +86,6 @@ public class BoGraphic extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Sender sender = new Sender();
-                StringBuilder sb = new StringBuilder("{");
                 int i=0;
                 PreparedStatement ps = null;
                 try {
@@ -98,24 +97,19 @@ public class BoGraphic extends JFrame{
                 for(Map.Entry<Integer, Boolean> mapElement : sent.entrySet()){
 
                     if(!mapElement.getValue()) {
-                        sb.append(" \n {" + "\"date\" : \"").append(Date.valueOf((String) data2.get(i).get(0))).append("\",").append("\"region\" : \"").append(data2.get(i).get(1)).append("\",").append("\"product\" : \"").append(data2.get(i).get(2)).append("\",").append("\"qty\" : ").append(Float.parseFloat((String) data2.get(i).get(3))).append(",").append("\"cost\" : ").append(Float.parseFloat((String) data2.get(i).get(4))).append(",").append("\"amt\" : ").append(Float.parseFloat((String) data2.get(i).get(5))).append(",").append("\"tax\" : ").append(Float.parseFloat((String) data2.get(i).get(6))).append(",").append("\"total\" : ").append(Float.parseFloat((String) data2.get(i).get(7))).append("},");
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(" {" + "\"date\" : \"").append(Date.valueOf((String) data2.get(i).get(0))).append("\",").append("\"region\" : \"").append(data2.get(i).get(1)).append("\",").append("\"product\" : \"").append(data2.get(i).get(2)).append("\",").append("\"qty\" : ").append(Float.parseFloat((String) data2.get(i).get(3))).append(",").append("\"cost\" : ").append(Float.parseFloat((String) data2.get(i).get(4))).append(",").append("\"amt\" : ").append(Float.parseFloat((String) data2.get(i).get(5))).append(",").append("\"tax\" : ").append(Float.parseFloat((String) data2.get(i).get(6))).append(",").append("\"total\" : ").append(Float.parseFloat((String) data2.get(i).get(7))).append("}");
                         try {
                             ps.setInt(1, mapElement.getKey());
                             ps.addBatch();
                             mapElement.setValue(true);
-                        } catch (SQLException throwables) {
+                            sender.send(sb.toString(), id);
+                            ps.executeBatch();
+                        } catch (SQLException | IOException throwables) {
                             throwables.printStackTrace();
                         }
                     }
                     i++;
-                }
-                sb.append("\n }");
-                try {
-                    sender.send(sb.toString(), id);
-                    ps.executeBatch();
-                } catch (IOException | SQLException ioException) {
-                    System.out.println("msg wasn't sent !!");
-                    ioException.printStackTrace();
                 }
             }
         });
@@ -126,7 +120,6 @@ public class BoGraphic extends JFrame{
         btnPan.add(refreshButton);
         frame.add(tablePan);
         frame.add(btnPan);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
