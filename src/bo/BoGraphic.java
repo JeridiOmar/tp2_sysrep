@@ -98,12 +98,12 @@ public class BoGraphic extends JFrame{
 
                     if(!mapElement.getValue()) {
                         StringBuilder sb = new StringBuilder();
-                        sb.append(" {" + "\"date\" : \"").append(Date.valueOf((String) data2.get(i).get(0))).append("\",").append("\"region\" : \"").append(data2.get(i).get(1)).append("\",").append("\"product\" : \"").append(data2.get(i).get(2)).append("\",").append("\"qty\" : ").append(Float.parseFloat((String) data2.get(i).get(3))).append(",").append("\"cost\" : ").append(Float.parseFloat((String) data2.get(i).get(4))).append(",").append("\"amt\" : ").append(Float.parseFloat((String) data2.get(i).get(5))).append(",").append("\"tax\" : ").append(Float.parseFloat((String) data2.get(i).get(6))).append(",").append("\"total\" : ").append(Float.parseFloat((String) data2.get(i).get(7))).append("}");
+                        sb.append("{" + "\"date\" : \"").append(Date.valueOf((String) data2.get(i).get(0))).append("\",").append("\"region\" : \"").append(data2.get(i).get(1)).append("\",").append("\"product\" : \"").append(data2.get(i).get(2)).append("\",").append("\"qty\" : ").append(Float.parseFloat((String) data2.get(i).get(3))).append(",").append("\"cost\" : ").append(Float.parseFloat((String) data2.get(i).get(4))).append(",").append("\"amt\" : ").append(Float.parseFloat((String) data2.get(i).get(5))).append(",").append("\"tax\" : ").append(Float.parseFloat((String) data2.get(i).get(6))).append(",").append("\"total\" : ").append(Float.parseFloat((String) data2.get(i).get(7))).append("}");
                         try {
                             ps.setInt(1, mapElement.getKey());
                             ps.addBatch();
                             mapElement.setValue(true);
-                            sender.send(sb.toString(), id);
+                            sender.send(sb.toString());
                             ps.executeBatch();
                         } catch (SQLException | IOException throwables) {
                             throwables.printStackTrace();
